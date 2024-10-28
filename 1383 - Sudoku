@@ -1,0 +1,72 @@
+#include <stdio.h>
+#define TAMANHO 9
+
+int verifica_linha(int sudoku[9][9], int i) {
+    int vistos[TAMANHO + 1] = {0};
+    for (int j = 0; j < TAMANHO; j++) {
+        int num = sudoku[i][j];
+        if (num < 1 || num > 9 || vistos[num])
+            return 0;
+        vistos[num] = 1;
+    }
+    return 1;
+}
+
+int verifica_coluna(int sudoku[9][9], int j) {
+    int vistos[TAMANHO + 1] = {0};
+    for (int i = 0; i < TAMANHO; i++) {
+        int num = sudoku[i][j];
+        if (num < 1 || num > 9 || vistos[num])
+            return 0;
+        vistos[num] = 1;
+    }
+    return 1;
+}
+
+int verifica_subgrade(int sudoku[9][9], int linha_inicial, int coluna_inicial) {
+    int vistos[TAMANHO + 1] = {0};
+    for (int linha = 0; linha < 3; linha++) {
+        for (int coluna = 0; coluna < 3; coluna++) {
+            int num = sudoku[linha_inicial + linha][coluna_inicial + coluna];
+            if (num < 1 || num > 9 || vistos[num])
+                return 0;
+            vistos[num] = 1;
+        }
+    }
+    return 1;
+}
+
+int sudoku_valido(int sudoku[9][9]) {
+    for (int x = 0; x < TAMANHO; x++) {
+        if (!verifica_linha(sudoku, x) || !verifica_coluna(sudoku, x))
+            return 0;
+    }
+    for (int i = 0; i < TAMANHO; i += 3) {
+        for (int j = 0; j < TAMANHO; j += 3) {
+            if (!verifica_subgrade(sudoku, i, j))
+                return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    int n, sudoku[9][9];
+    scanf("%d", &n);
+
+    for (int instancia = 1; instancia <= n; instancia++) {
+        for (int i = 0; i < TAMANHO; i++) {
+            for (int j = 0; j < TAMANHO; j++) {
+                scanf("%d", &sudoku[i][j]);
+            }
+        }
+
+        printf("Instancia %d\n", instancia);
+        if (sudoku_valido(sudoku)) {
+            printf("SIM\n\n");
+        } else {
+            printf("NAO\n\n");
+        }
+    }
+    return 0;
+}
