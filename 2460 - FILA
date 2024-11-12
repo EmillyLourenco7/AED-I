@@ -1,0 +1,39 @@
+#include <stdio.h>
+
+int main() {
+    int N, M;
+    scanf("%d", &N);
+    
+    int fila[N];
+    for (int i = 0; i < N; i++) {
+        scanf("%d", &fila[i]);
+    }
+
+    scanf("%d", &M);
+    int sairam[M];
+    for (int i = 0; i < M; i++) {
+        scanf("%d", &sairam[i]);
+    }
+
+    int fila_final[N], tamanho_final = 0;
+    for (int i = 0; i < N; i++) {
+        int esta_na_lista = 0;
+        for (int j = 0; j < M; j++) {
+            if (fila[i] == sairam[j]) {
+                esta_na_lista = 1;
+                break;
+            }
+        }
+        if (!esta_na_lista) {
+            fila_final[tamanho_final++] = fila[i];
+        }
+    }
+
+    for (int i = 0; i < tamanho_final; i++) {
+        printf("%d", fila_final[i]);
+        if (i < tamanho_final - 1) printf(" ");
+    }
+    printf("\n");
+
+    return 0;
+}
